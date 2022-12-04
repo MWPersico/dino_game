@@ -3,3 +3,23 @@
     padding:0;
     box-sizing:border-box;
 }
+
+body{
+    background-color:#000;
+}
+
+#view{
+    background-color:white;
+    height:300px;
+    width:600px;
+    margin:20px auto;
+}
+
+.dino{
+    position:relative;
+    top:200px;
+}
+
+.lowerDino{
+    top:225px;
+}
