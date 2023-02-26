@@ -5,21 +5,54 @@
 }
 
 body{
-    background-color:#000;
+    background-color:rgb(255, 0, 0);
 }
 
 #view{
-    background-color:white;
+    background-color:#fff;
     height:300px;
     width:600px;
     margin:20px auto;
+    overflow:hidden;
+    background-image:url('../images/floor.png');
+    background-repeat:repeat-x;
+    background-position:0 270px;
 }
+
+.running-animation{
+    animation-name:running;
+    animation-timing-function: linear;
+    animation-duration: 3.5s;
+    animation-iteration-count:infinite;
+}
+
+@keyframes jump{
+    from{top:185px}
+    to{top:150px}
+}
+
+@keyframes running{
+    from{background-position:0 270px}
+    to{background-position:-1200px 270px}
+}
+
 
 .dino{
     position:relative;
-    top:200px;
+    top:185px;
+    transition: top .06s linear;
 }
 
 .lowerDino{
-    top:225px;
+    top:210px;
+}
+
+.higherDino{
+    top: 110px;
+}
+
+#floor{
+    position:absolute;
+    top:300px;
+    left:0;
 }

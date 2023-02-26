@@ -2,6 +2,7 @@ var game = {
     view: document.getElementById('view'),
     started: false,
     lower: false,
+    high: false,
     dinoPosition: 0,
     images: {
         buttons:[],
@@ -51,6 +52,7 @@ var game = {
     start: function(e){
         if(e.type == 'click'){
             game.started = true;
+            game.view.classList.add('running-animation');
             game.dinoRun();
             window.addEventListener('keydown', game.dinoControls)
             game.view.removeEventListener('click', game.start)
@@ -58,6 +60,7 @@ var game = {
         }else if(e.type == 'keydown' ){
             if(e.key == 'Enter'){
                 game.started = true;
+                game.view.classList.add('running-animation');
                 game.dinoRun();
                 window.addEventListener('keydown', game.dinoControls)
                 window.removeEventListener('keydown', game.start)
@@ -73,17 +76,25 @@ var game = {
                 this.dinoRender(this.dinoPosition);
                 this.dinoPosition++;
                 
+            }else if(this.high){
+                this.view.firstChild.classList.add('higherDino');
+                let jump = setTimeout(()=>{
+                    this.high = false;
+                    this.view.firstChild.classList.remove('higherDino');
+                    clearTimeout(jump);
+                }, 700);
             }else{
                 if(this.dinoPosition>2) this.dinoPosition = 0;
                 this.dinoRender(this.dinoPosition);
                 this.dinoPosition++;
             }
+            
         }, 100)
     },
 
     dinoControls: function(e){
-        if(e.key == 'ArrowRight' || e.key == "d" || e.key == "D"){
-            game.lower = false;
+        if(e.key == 'ArrowUp' || e.key == "w" || e.key == "W"){
+            game.high = true;
         }
         if(e.key == 'ArrowDown' || e.key == "s" || e.key == "S"){
             game.lower = true;
@@ -91,17 +102,16 @@ var game = {
                 if(e.key == "ArrowDown" || e.key == "s" || e.key == "S"){
                     game.lower = false;  
                 }
-            })
-            
+            })    
         }
     }
 }
 
 let dinoImages = "./assets/images/dino.png";
 game.images.addDino([
-    game.images.cropImg(dinoImages, 0, 3, 44, 60, 0, 0, 300, 150, 80, 100), 
-    game.images.cropImg(dinoImages, 88, 3, 44, 60, 0, 0, 300, 150, 80, 100),
-    game.images.cropImg(dinoImages, 132, 3, 44, 60, 0, 0, 300, 150, 80, 100),
+    game.images.cropImg(dinoImages, 0, 3, 43, 60, 0, 0, 300, 150, 80, 100), 
+    game.images.cropImg(dinoImages, 88, 3, 43, 60, 0, 0, 300, 150, 80, 100),
+    game.images.cropImg(dinoImages, 132, 3, 43, 60, 0, 0, 300, 150, 80, 100),
     game.images.cropImg(dinoImages, 264, 21, 59, 42, 0, 0, 300, 150, 100, 75),
     game.images.cropImg(dinoImages, 323, 21, 59, 42, 0, 0, 300, 150, 100, 75),
     game.images.cropImg(dinoImages, 323, 21, 59, 42, 0, 0, 300, 150, 100, 75),
@@ -110,9 +120,10 @@ game.images.addDino([
     game.images.cropImg(dinoImages, 220, 3, 44, 60, 0, 0, 300, 150, 80, 100)
 ]);
 game.images.addObject([
-    game.images.cropImg(dinoImages, 383, 20, 34, 45, 0, 0, 300, 150, 60, 60)
+    game.images.cropImg(dinoImages, 383, 20, 34, 45, 0, 0, 300, 150, 60, 60),
 ]);
-
 
 window.addEventListener('keydown', game.start);
 game.view.addEventListener('click', game.start);
+
+game.view.appendChild(game.images.dinos[0])
